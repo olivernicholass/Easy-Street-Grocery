@@ -16,8 +16,13 @@
 </form>
 
 <% // Get product name to search for
+String url = "jdbc:sqlserver://cosc304_sqlserver:1433;DatabaseName=orders;TrustServerCertificate=True";
+String uid = "sa";
+String pw = "304#serverpw";
 String name = request.getParameter("productName");
-		
+if(name == null || name.isEmpty())
+	name = "";
+
 //Note: Forces loading of SQL Server driver
 try
 {	// Load driver class
@@ -25,7 +30,7 @@ try
 }
 catch (java.lang.ClassNotFoundException e)
 {
-	out.println("ClassNotFoundException: " +e);
+	out.println("ClassNotFoundException: " + e);
 }
 
 
@@ -36,21 +41,23 @@ catch (java.lang.ClassNotFoundException e)
 try( Connection con = DriverManager.getConnection(url, uid, pw);
 	Statement stmt = con.createStatement();)
 {
-
-	String sql1 = "SELECT * from product WHERE productName LIKE '%?%';"
+	String sql1 = "SELECT * from product WHERE productName LIKE ?";
 	PreparedStatement prepstmt = con.prepareStatement(sql1);
-
+	prepstmt.setString(1, "%" + name + "%");
 	ResultSet rst = prepstmt.executeQuery();
-	out.println("<table> <tr> <th>Product Name</th> <th>Price</th> <tr>");
+
+	// Print out the ResultSet
+	out.println("<table> <tr> <th></th> <th>Product Name</th> <th>Price</th> </tr>");
 	while(rst.next()){
-		out.println("<tr> <td>" + rst.getParameter("productName") + "</td> <td>" + rst.getParameter("price") + "</td></tr>");
+		out.println("<tr><td><a href= 'addcart.jsp?id=productId&name=productName&price=productPrice'>Add to cart</a></td>");
+		out.println("<td>" + rst.getString("productName") + "</td> <td>" + rst.getString("productPrice") + "</td></tr>");
 	}
 	out.println("</table>");
 
 }catch(SQLException ex){
 	out.print("SQLException: " + ex);
 }
-// Print out the ResultSet
+
 
 // For each product create a link of the form
 // addcart.jsp?id=productId&name=productName&price=productPrice
