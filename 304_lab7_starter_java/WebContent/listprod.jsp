@@ -28,11 +28,28 @@ catch (java.lang.ClassNotFoundException e)
 	out.println("ClassNotFoundException: " +e);
 }
 
+
 // Variable name now contains the search string the user entered
 // Use it to build a query and print out the resultset.  Make sure to use PreparedStatement!
 
 // Make the connection
+try( Connection con = DriverManager.getConnection(url, uid, pw);
+	Statement stmt = con.createStatement();)
+{
 
+	String sql1 = "SELECT * from product WHERE productName LIKE '%?%';"
+	PreparedStatement prepstmt = con.prepareStatement(sql1);
+
+	ResultSet rst = prepstmt.executeQuery();
+	out.println("<table> <tr> <th>Product Name</th> <th>Price</th> <tr>");
+	while(rst.next()){
+		out.println("<tr> <td>" + rst.getParameter("productName") + "</td> <td>" + rst.getParameter("price") + "</td></tr>");
+	}
+	out.println("</table>");
+
+}catch(SQLException ex){
+	out.print("SQLException: " + ex);
+}
 // Print out the ResultSet
 
 // For each product create a link of the form
