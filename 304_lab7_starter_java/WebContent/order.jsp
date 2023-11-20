@@ -22,18 +22,56 @@ HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Obje
 // Determine if there are products in the shopping cart
 // If either are not true, display an error message
 
-// Make connection
+/if (custId == null || custId.isEmpty() || productList == null || productList.isEmpty()) {
+    out.println("<h1>Error: Invalid Customer ID or Cart is Empty!</h1>");
+} else {
 
-// Save order information to database
+	// Make connection
+	
+    Connection connection = null;
+    try {
 
+        String url = "jdbc:sqlserver://cosc304_sqlserver:1433;DatabaseName=orders;TrustServerCertificate=True";
+		String uid = "sa";
+		String pw = "304#serverpw";
+        
+        Class.forName("com.mysql.jdbc.Driver"); 
+        
+        connection = DriverManager.getConnection(url, uid, pw); 
+        
+        String insert = "INSERT INTO orders (customerId, orderDate, totalAmount) VALUES (?, ?, ?)";
+        PreparedStatement prep = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
+        prep.setString(1, custId);
+        prep.setTimestamp(2, new Timestamp(System.currentTimeMillis())); 
+        prep.setDouble(3, calculateTotal(productList)); 
+        
+        int rowsAff = prep.executeUpdate(); 
+        if (rowsAff > 0) {
 
-	/*
-	// Use retrieval of auto-generated keys.
-	PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);			
-	ResultSet keys = pstmt.getGeneratedKeys();
-	keys.next();
-	int orderId = keys.getInt(1);
-	*/
+            ResultSet keys = prep.getGeneratedKeys();
+            if (keys.next()) {
+                int orderId = keys.getInt(1); 
+
+				// Insert each item into OrderProduct table using OrderId from previous INSERT
+
+                }
+                
+                out.println("<h1>Order Summary</h1>");
+                session.removeAttribute("productList");
+            }
+        }
+    } catch (SQLException | ClassNotFoundException e) {
+        out.println("<h1>Error: Database Connection Failure!</h1>");
+        e.printStackTrace();
+    } finally {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 // Insert each item into OrderProduct table using OrderId from previous INSERT
 
