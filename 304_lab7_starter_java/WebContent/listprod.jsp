@@ -49,13 +49,25 @@ try( Connection con = DriverManager.getConnection(url, uid, pw);
 	// Print out the ResultSet
 	out.println("<table> <tr> <th></th> <th>Product Name</th> <th>Price</th> </tr>");
 	while(rst.next()){
-		out.println("<tr><td><a href= 'addcart.jsp?id=productId&name=productName&price=productPrice'>Add to cart</a></td>");
-		out.println("<td>" + rst.getString("productName") + "</td> <td>" + rst.getString("productPrice") + "</td></tr>");
+		String productId = rst.getString("productId");
+		String productName = rst.getString("productName");
+		String productPrice = rst.getString("productPrice");
+		
+		//Citation: ChatGPT
+		//construct URL with variables 
+		String encodedProductName = URLEncoder.encode(productName, "UTF-8");
+		String linkurl = "addcart.jsp?id=" + productId + "&name=" + productName + "&price=" + productPrice;
+		out.println("<tr><td><a href= '" + linkurl + "'>Add to cart</a></td>");
+		//end of citation
+
+		out.println("<td>" + productName + "</td> <td>" + productPrice + "</td></tr>");
 	}
 	out.println("</table>");
 
 }catch(SQLException ex){
 	out.print("SQLException: " + ex);
+}finally{
+	con.close();
 }
 
 
