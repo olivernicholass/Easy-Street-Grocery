@@ -64,10 +64,12 @@ try( Connection con = DriverManager.getConnection(url, uid, pw);
 	}
 	out.println("</table>");
 
+	prepstmt.close();
+	rst.close();
+	con.close();
+
 }catch(SQLException ex){
 	out.print("SQLException: " + ex);
-}finally{
-	con.close();
 }
 
 
