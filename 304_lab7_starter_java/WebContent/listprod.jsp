@@ -33,6 +33,7 @@ catch (java.lang.ClassNotFoundException e)
 	out.println("ClassNotFoundException: " + e);
 }
 
+NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 
 // Variable name now contains the search string the user entered
 // Use it to build a query and print out the resultset.  Make sure to use PreparedStatement!
@@ -49,15 +50,13 @@ try( Connection con = DriverManager.getConnection(url, uid, pw);
 	// Print out the ResultSet
 	out.println("<table> <tr> <th></th> <th>Product Name</th> <th>Price</th> </tr>");
 	while(rst.next()){
-		String productId = rst.getString("productId");
+		int productId = rst.getInt("productId");
 		String productName = rst.getString("productName");
-		String productPrice = rst.getString("productPrice");
-		
+		double productPrice = rst.getDouble("productPrice");
 		//Citation: ChatGPT
 		//construct URL with variables 
-		String encodedProductName = URLEncoder.encode(productName, "UTF-8");
-		String linkurl = "addcart.jsp?id=" + productId + "&name=" + productName + "&price=" + productPrice;
-		out.println("<tr><td><a href= '" + linkurl + "'>Add to cart</a></td>");
+		String linkurl = "addcart.jsp?id=" + productId + "&name=" + URLEncoder.encode(productName, "UTF-8") + "&price=" + productPrice;
+		out.println("<tr><td><a href= \"" + linkurl + "\"'>Add to cart</a></td>");
 		//end of citation
 
 		out.println("<td>" + productName + "</td> <td>" + productPrice + "</td></tr>");
