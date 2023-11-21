@@ -56,6 +56,20 @@ if (!ifExist) {
     return;
 }
 
+// Getting the customer name
+String firstName = "";
+String lastName = "";
+String custName = "SELECT firstName, lastName FROM customer WHERE customerId = ?";
+try (Connection connect = DriverManager.getConnection(url, uid, pw);
+     PreparedStatement namePrep = connect.prepareStatement(custName)) {
+    namePrep.setInt(1, customerId);
+    ResultSet nameResult = namePrep.executeQuery();
+    if (nameResult.next()) {
+        firstName = nameResult.getString("firstName");
+        lastName = nameResult.getString("lastName");
+    }
+}
+
 // Showing error message if shopping cart is empty
 
 if (productList == null || productList.isEmpty()) {
@@ -149,7 +163,7 @@ try {
             out.println("</table>");
             out.println("<h1>Order completed. Will be shipped soon...</h1>");
             out.println("<h1>Your order reference number is: " + orderId + "</h1>");
-            out.println("<h1>Shipping to customer: " + customerId + " Name: </h1>");
+            out.println("<h1>Shipping to customer: " + customerId + " Name: " + firstName + " " + lastName + "</h1>");
 
 
             // Clearing the shopping cart (sessional variable) after order has been successfully placed
