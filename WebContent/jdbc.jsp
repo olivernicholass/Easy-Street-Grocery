@@ -15,7 +15,7 @@ Public methods:
 	private String pw = "304#sa#pw";
 	
 	// Do not modify this url
-	private String urlForLoadData = "jdbc:sqlserver://cosc304_sqlserver:1433;TrustServerCertificate=True";
+	private String urlForLoadData = "jdbc:sqlserver://cosc304_sqlserver:1433;DatabaseName=orders;TrustServerCertificate=True";
 	
 	// Connection
 	private Connection con = null;

@@ -69,6 +69,7 @@ services:
         container_name: cosc304-java
         volumes:
             - ./WebContent:/usr/local/tomcat/webapps/shop/
+            - ./WebContent:/usr/local/tomcat/webapps/index/
         networks:
             network304:
                 aliases:

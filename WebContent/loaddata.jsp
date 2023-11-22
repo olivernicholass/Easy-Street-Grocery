@@ -44,7 +44,7 @@ try ( Connection con = DriverManager.getConnection(urlForLoadData, uid, pw); )
         if (command.contains("INSERT INTO ordersummary") && !command.contains("DECLARE @orderId"))
             command = "DECLARE @orderId int \n"+command;
 
-        out.print(command+"<br>");        // Uncomment if want to see commands executed
+        // out.print(command+"<br>");        // Uncomment if want to see commands executed
         try
         {
             stmt.execute(command);
