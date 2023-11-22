@@ -42,7 +42,7 @@ NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 try( Connection con = DriverManager.getConnection(url, uid, pw);
 	Statement stmt = con.createStatement();)
 {
-	String sql1 = "SELECT * from product WHERE productName LIKE ?";
+	String sql1 = "SELECT * from product JOIN category ON product.categoryId = category.categoryId WHERE productName LIKE ?";
 	PreparedStatement prepstmt = con.prepareStatement(sql1);
 	prepstmt.setString(1, "%" + name + "%");
 	ResultSet rst = prepstmt.executeQuery();
@@ -53,13 +53,16 @@ try( Connection con = DriverManager.getConnection(url, uid, pw);
 		int productId = rst.getInt("productId");
 		String productName = rst.getString("productName");
 		double productPrice = rst.getDouble("productPrice");
-		//Citation: ChatGPT
-		//construct URL with variables 
-		String linkurl = "addcart.jsp?id=" + productId + "&name=" + URLEncoder.encode(productName, "UTF-8") + "&price=" + productPrice;
-		out.println("<tr><td><a href= \"" + linkurl + "\"'>Add to cart</a></td>");
-		//end of citation
+		String productImageURL = rst.getString("productImageURL");
+		String category = rst.getString("categoryName");
 
-		out.println("<td>" + productName + "</td> <td>" + productPrice + "</td></tr>");
+		String addcartURL = "addcart.jsp?id=" + productId + "&name=" + URLEncoder.encode(productName, "UTF-8") + "&price=" + productPrice;
+		out.println("<tr><td><a href= \"" + addcartURL + "\"'>Add to cart</a></td>");
+
+		String productNameURL = "product.jsp?id=" + productId + "&name="  + URLEncoder.encode(productName, "UTF-8") + "&price=" + productPrice;// + "&image=" + productImageURL;
+		out.println("<td><a href= \"" + productNameURL + "\"'>" + productName + "</a></td>");
+
+		out.println("<td>" + productPrice + "</td></tr>");
 	}
 	out.println("</table>");
 
