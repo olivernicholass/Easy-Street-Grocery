@@ -32,19 +32,32 @@
 
 		try 
 		{
-			getConnection();
-			
-			// TODO: Check if userId and password match some customer account. If so, set retStr to be the username.
-			retStr = "";			
-		} 
-		catch (SQLException ex) {
+			String url = "jdbc:sqlserver://cosc304_sqlserver:1433;DatabaseName=orders;TrustServerCertificate=True";
+			String uid = "sa";
+			String pw = "304#serverpw";
+
+			String sql1 = "SELECT userid, password FROM customer WHERE userid = ? AND password = ?";
+			Connection conn = DriverManager.getConnection(url, uid, pw);
+			PreparedStatement stmt = conn.prepareStatement(sql1);
+
+			stmt.setString(1, username);
+			stmt.setString(2, password);
+
+			try (ResultSet res = stmt.executeQuery()) {
+				if (res.next()) {
+					retStr = res.getString("userid");
+				} else {
+					retStr = "Username or Password was Invalid";
+				}
+			} catch (SQLException exep) {
+				exep.printStackTrace();
+			}
+		} catch (SQLException ex) {
 			out.println(ex);
-		}
-		finally
-		{
+		} finally {
 			closeConnection();
-		}	
-		
+		}
+				
 		if(retStr != null)
 		{	session.removeAttribute("loginMessage");
 			session.setAttribute("authenticatedUser",username);
