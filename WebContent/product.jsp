@@ -1,6 +1,6 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.text.NumberFormat" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
+<%@ page import="java.sql.*,java.net.URLEncoder" %>
 <%@ include file="jdbc.jsp" %>
 
 <html>
@@ -25,27 +25,36 @@ String price = request.getParameter("price");
 double dprice = Double.parseDouble(price);
 
 try(Connection con = DriverManager.getConnection(url, uid, pw);)
-	{
-    String sql = "SELECT productImageURL FROM product WHERE productId = ?";
-    PreparedStatement prepstmt = con.prepareStatement(sql);
-    prepstmt.setString(1, id);
-    ResultSet rst = prepstmt.executeQuery();
+{
+String sql = "SELECT productImageURL, productImage FROM product WHERE productId = ?";
+PreparedStatement prepstmt = con.prepareStatement(sql);
+prepstmt.setString(1, id);
+ResultSet rst = prepstmt.executeQuery();
 
 out.println("<h1>" + name + "</h1>");
 
-// TODO: If there is a productImageURL, display using IMG tag
-String imageURL = "img/" + id + ".jpg";
-if(imageURL != null){
-    out.println("<img src=\"" + imageURL + "\">");
-}
+String productImage = "";
+String productImageURL = "";
+
 while(rst.next()){
-    if(rst.getString("productImageURL") != null){
-        out.println("<img src=\"displayImage.jsp?id=" + id + "\">");
+    productImageURL = rst.getString("productImageURL");
+    productImage = rst.getString ("productImage");
+    // TODO: If there is a productImageURL, display using IMG tag
+    //String imageURL = productImageURL;
+    if(productImageURL != null){
+        out.println("<p>" + productImageURL + "</p>");
+        out.println("<img src=\"" + productImageURL + "\">");
     }
 }
 
-
 // TODO: Retrieve any image stored directly in database. Note: Call displayImage.jsp with product id as parameter.
+if(productImage != null){
+    out.println("<img src='displayImage.jsp?id=" + id + "'>");
+}
+
+    
+
+
 
 out.println("<table><tbody>");
 out.println("<tr><th>ID</th><td>" + id + "</td></tr>");
