@@ -32,7 +32,7 @@
             Statement stmt = conn.createStatement();
             ResultSet res = stmt.executeQuery(sql);
 
-			out.println("<h3> Administrator Sales Report by Day </h3> ");
+	    out.println("<h3> Administrator Sales Report by Day </h3> ");
             out.println("<table border='1'>");
             out.println("<tr><th>Order Date</th><th>Total Order Amount</th></tr>");
 
