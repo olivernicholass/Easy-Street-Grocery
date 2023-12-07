@@ -5,8 +5,55 @@
 
 <html>
 <head>
-<title>Ray's Grocery - Product Information</title>
-<link href="css/bootstrap.min.css" rel="stylesheet">
+    <title>Ray's Grocery - Product Information</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <style>
+        body {
+            background-color: var(--antiflash-white);
+            color: var(--battleship-gray);
+            font-family: 'Poppins', sans-serif;
+            margin: 20px; 
+            padding: 20px;
+        }
+
+        h1 {
+            color: var(--yinmn-blue);
+            margin-bottom: 20px; 
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%; 
+            margin-top: 20px; 
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--uranian-blue);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px; 
+            margin-bottom: 20px; 
+        }
+
+        a {
+            text-decoration: none;
+            padding: 10px;
+            margin: 10px;
+            background-color: var(--air-superiority-blue);
+            color: var(--antiflash-white);
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: var(--yinmn-blue);
+        }
+    </style>
 </head>
 <body>
 
@@ -17,8 +64,7 @@ String url = "jdbc:sqlserver://cosc304_sqlserver:1433;DatabaseName=orders;TrustS
 String uid = "sa";
 String pw = "304#serverpw";
 NumberFormat currFormat = NumberFormat.getCurrencyInstance();
-// Get product name to search for
-// TODO: Retrieve and display info for the product
+
 String id = request.getParameter("id");
 String name = request.getParameter("name");
 String price = request.getParameter("price");
@@ -26,51 +72,45 @@ double dprice = Double.parseDouble(price);
 
 try(Connection con = DriverManager.getConnection(url, uid, pw);)
 {
-String sql = "SELECT productImageURL, productImage FROM product WHERE productId = ?";
-PreparedStatement prepstmt = con.prepareStatement(sql);
-prepstmt.setString(1, id);
-ResultSet rst = prepstmt.executeQuery();
+    String sql = "SELECT productImageURL, productImage, productDesc FROM product WHERE productId = ?";
+    PreparedStatement prepstmt = con.prepareStatement(sql);
+    prepstmt.setString(1, id);
+    ResultSet rst = prepstmt.executeQuery();
 
-out.println("<h1>" + name + "</h1>");
+    out.println("<h1>" + name + "</h1>");
 
-String productImage = "";
-String productImageURL = "";
+    String productImage = "";
+    String productImageURL = "";
+    String productDesc = "";
 
-while(rst.next()){
-    productImageURL = rst.getString("productImageURL");
-    productImage = rst.getString ("productImage");
-    // TODO: If there is a productImageURL, display using IMG tag
-    //String imageURL = productImageURL;
-    if(productImageURL != null){
-        out.println("<p>" + productImageURL + "</p>");
-        out.println("<img src=\"" + productImageURL + "\">");
+    while(rst.next()){
+        productImageURL = rst.getString("productImageURL");
+        productImage = rst.getString("productImage");
+        productDesc = rst.getString("productDesc");
+
+        if(productImageURL != null){
+            out.println("<img src=\"" + productImageURL + "\">");
+        }
     }
-}
 
-// TODO: Retrieve any image stored directly in database. Note: Call displayImage.jsp with product id as parameter.
-if(productImage != null){
-    out.println("<img src='displayImage.jsp?id=" + id + "'>");
-}
+    if(productImage != null){
+        out.println("<img src='displayImage.jsp?id=" + id + "'>");
+    }
 
-    
+    out.println("<p>" + productDesc + "</p>");
 
-
-
-out.println("<table><tbody>");
-out.println("<tr><th>ID</th><td>" + id + "</td></tr>");
-out.println("<tr><th>Price</th><td>" + currFormat.format(dprice) + "</td></tr>");
-out.println("</tbody></table>");
+    out.println("<table><tbody>");
+    out.println("<tr><th>ID</th><td>" + id + "</td></tr>");
+    out.println("<tr><th>Price</th><td>" + currFormat.format(dprice) + "</td></tr>");
+    out.println("</tbody></table>");
 
 }catch(SQLException ex){
     out.println("SQLException: " + ex);
 }
-
-
-
-
-// TODO: Add links to Add to Cart and Continue Shopping
 %>
+
+<a href="#">Add to Cart</a>
+<a href="#">Continue Shopping</a>
 
 </body>
 </html>
-

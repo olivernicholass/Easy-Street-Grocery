@@ -4,12 +4,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>YOUR NAME Grocery Order List</title>
+  <title>YOUR NAME Grocery Order List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
 
+    h1 {
+      background-color: #3498db;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #3498db;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #3498db;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #e0e0e0;
+    }
+
+    .nested-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .nested-table, .nested-table th, .nested-table td {
+      border: 1px solid #3498db;
+    }
+
+    .nested-table th, .nested-table td {
+      padding: 8px;
+      text-align: left;
+    }
+
+    .nested-table th {
+      background-color: #3498db;
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
 
-<h1>Order List</h1>
+<h1>ORDER LIST</h1>
 
 <%
 String url = "jdbc:sqlserver://cosc304_sqlserver:1433;DatabaseName=orders;TrustServerCertificate=True";
