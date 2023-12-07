@@ -10,8 +10,8 @@ HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Obje
 if (productList == null) {
     response.sendRedirect("showcart.jsp"); 
 } else {
-    String productIdToRemove = request.getParameter("id");
-    productList.remove(productIdToRemove);
+    String removing = request.getParameter("id");
+    productList.remove(removing);
     session.setAttribute("productList", productList);
     response.sendRedirect("showcart.jsp");
 }
