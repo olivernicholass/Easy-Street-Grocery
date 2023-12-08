@@ -218,7 +218,7 @@ try {
                 out.println("<tr><td>" + productId + "</td><td>" + productName + "</td><td align=\"center\">" + quantity + "</td><td>$" + price + "</td><td>$" + subtotal + "</td></tr>");
             }
 
-       out.println("<div class=\"absolute-container\">");
+        out.println("<div class=\"absolute-container\">");
         out.println("<h1>Order completed. Will be shipped soon...</h1>");
         out.println("<h1>Your order reference number is: " + orderId + "</h1>");
         out.println("<h1>Shipping to customer: " + customerId + "</h1>");

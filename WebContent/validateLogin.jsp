@@ -36,9 +36,9 @@
 			String uid = "sa";
 			String pw = "304#serverpw";
 
-			String sql1 = "SELECT userid, password FROM customer WHERE userid = ? AND password = ?";
+			String sql = "SELECT userid, password FROM customer WHERE userid = ? AND password = ?";
 			Connection conn = DriverManager.getConnection(url, uid, pw);
-			PreparedStatement stmt = conn.prepareStatement(sql1);
+			PreparedStatement stmt = conn.prepareStatement(sql);
 
 			stmt.setString(1, username);
 			stmt.setString(2, password);

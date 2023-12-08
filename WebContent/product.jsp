@@ -3,6 +3,7 @@
 <%@ page import="java.sql.*,java.net.URLEncoder" %>
 <%@ include file="jdbc.jsp" %>
 
+
 <html>
 <head>
     <title>Easy Street Grocery</title>

@@ -132,13 +132,13 @@
             out.println("<div class='customer-list'>");
             out.println("<h3>List of Customers</h3>");
 
-            String customerSql = "SELECT * FROM customer";
-            ResultSet customerResultSet = stmt.executeQuery(customerSql);
+            String sql = "SELECT * FROM customer";
+            ResultSet res = stmt.executeQuery(sql);
 
             out.println("<ul>");
-            while (customerResultSet.next()) {
-                String firstName = customerResultSet.getString("firstName");
-                String lastName = customerResultSet.getString("lastName");
+            while (res.next()) {
+                String firstName = res.getString("firstName");
+                String lastName = res.getString("lastName");
                 out.println("<li>" + firstName + " " + lastName + "</li>");
             }
             out.println("</ul>");
