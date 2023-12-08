@@ -1,8 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset="UTF-8" language="java" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map" %>
-
 <%
 @SuppressWarnings("unchecked")
 HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Object>>) session.getAttribute("productList");

@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<%@ include file="header.jsp" %>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
-  <title>Easy Street Grocery</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-            background-color: #E7ECEF;
-            margin: 0;
-            padding: 0;
-            color: #274C77;
+    <title>Easy Street Grocery</title>
+   <style>
+        :root {
+            --ash-gray: #cad2c5ff;
+            --cambridge-blue: #84a98cff;
+            --hookers-green: #52796fff;
+            --dark-slate-gray: #354f52ff;
+            --charcoal: #2f3e46ff;
         }
 
-        h1 {
-            text-align: center;
-            background-color: #6096BA;
-            color: #E7ECEF;
-            padding: 20px;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--ash-gray);
             margin: 0;
+            padding: 0;
+            color: var(--dark-slate-gray);
         }
+
 
         h2 {
             text-align: center;
@@ -29,9 +31,9 @@
 
         h2 a {
             text-decoration: none;
-            color: #274C77;
+            color: var(--dark-slate-gray);
             padding: 10px;
-            background-color: #A3CEF1;
+            background-color: var(--cambridge-blue);
             border-radius: 5px;
             margin: 5px;
             display: inline-block;
@@ -39,7 +41,7 @@
         }
 
         h2 a:hover {
-            background-color: #8B8C89;
+            background-color: var(--charcoal);
         }
 
         h3 {
@@ -54,9 +56,9 @@
 
         h4 a {
             text-decoration: none;
-            color: #274C77;
+            color: var(--dark-slate-gray);
             padding: 10px;
-            background-color: #A3CEF1;
+            background-color: var(--cambridge-blue);
             border-radius: 5px;
             margin: 5px;
             display: inline-block;
@@ -64,13 +66,12 @@
         }
 
         h4 a:hover {
-            background-color: #8B8C89;
+            background-color: var(--charcoal);
         }
     </style>
 </head>
 <body>
 
-<h1>Welcome to Easy Street Grocery</h1>
 
 <h2><a href="login.jsp">Login</a></h2>
 
@@ -83,12 +84,6 @@
 <h2><a href="admin.jsp">Administrators</a></h2>
 
 <h2><a href="logout.jsp">Log out</a></h2>
-
-<%
-	String userName = (String) session.getAttribute("authenticatedUser");
-	if (userName != null)
-		out.println("<h3>Signed in as: "+userName+"</h3>");
-%>
 
 <h4><a href="ship.jsp?orderId=1">Test Ship orderId=1</a></h4>
 

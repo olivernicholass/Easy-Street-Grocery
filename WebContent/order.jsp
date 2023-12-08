@@ -4,6 +4,65 @@
 <html>
 <head>
     <title>Your Order Summary</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <style>
+        body {
+            background-color: #cad2c5ff;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #84a98cff;
+            text-align: center;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #52796fff; 
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #2f3e46ff; 
+            padding: 12px;
+            text-align: left;
+            background-color: #84a98cff; 
+            color: #cad2c5ff;
+        }
+
+        th {
+            background-color: #52796fff; 
+            color: #cad2c5ff; 
+            font-weight: bold;
+        }
+
+        caption {
+            background-color: #52796fff; 
+            color: #cad2c5ff; 
+            font-size: 1.5em;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .absolute-container {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
 </head>
 <body>
 
@@ -142,8 +201,8 @@ try {
             }
 
             // Displaying the order information including all ordered items
-            out.println("<h1>Your Order Summary</h1>");
             out.println("<table>");
+            out.println("<caption>Your Order Summary</caption>");
             out.println("<tr><th>Product Id</th><th>Product Name</th><th>Quantity</th><th>Price</th><th>Subtotal</th></tr>");
 
             iterator = productList.entrySet().iterator();
@@ -159,12 +218,12 @@ try {
                 out.println("<tr><td>" + productId + "</td><td>" + productName + "</td><td align=\"center\">" + quantity + "</td><td>$" + price + "</td><td>$" + subtotal + "</td></tr>");
             }
 
-            out.println("<tr><td colspan=\"4\" align=\"right\"><b>Order Total</b></td><td align=\"left\">$" + total + "</td></tr>");
-            out.println("</table>");
-            out.println("<h1>Order completed. Will be shipped soon...</h1>");
-            out.println("<h1>Your order reference number is: " + orderId + "</h1>");
-            out.println("<h1>Shipping to customer: " + customerId + " Name: " + firstName + " " + lastName + "</h1>");
-
+       out.println("<div class=\"absolute-container\">");
+        out.println("<h1>Order completed. Will be shipped soon...</h1>");
+        out.println("<h1>Your order reference number is: " + orderId + "</h1>");
+        out.println("<h1>Shipping to customer: " + customerId + "</h1>");
+        out.println("<h1>Name: " + firstName + " " + lastName + "</h1>");
+        out.println("</div>");
 
             // Clearing the shopping cart (sessional variable) after order has been successfully placed
             session.removeAttribute("productList");

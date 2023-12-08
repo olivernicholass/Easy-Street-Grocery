@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,18 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
   <title>YOUR NAME Grocery</title>
-  <style>
+    <style>
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #E7ECEF;
-      color: #274C77;
+      background-color: #cad2c5ff; 
+      color: #2f3e46ff; 
     }
 
     h1 {
-      background-color: #6096BA;
-      color: #E7ECEF;
+      background-color: #84a98cff; 
+      color: #cad2c5ff; 
       padding: 10px;
       text-align: center;
       margin: 0;
@@ -31,27 +32,27 @@
       width: 70%;
       padding: 10px;
       box-sizing: border-box;
+      background-color: #52796fff;
+      color: #cad2c5ff; 
+      border: 1px solid #354f52ff; 
     }
 
     select, input[type="submit"], input[type="reset"] {
       padding: 10px;
       box-sizing: border-box;
+      background-color: #52796fff; 
+      color: #cad2c5ff; 
+      border: 1px solid #354f52ff;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
 
     select {
       width: 20%;
     }
 
-    input[type="submit"], input[type="reset"] {
-      background-color: #A3CEF1;
-      color: #E7ECEF;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
     input[type="submit"]:hover, input[type="reset"]:hover {
-      background-color: #8B8C89;
+      background-color: #84a98cff; 
     }
 
     table {
@@ -61,7 +62,7 @@
     }
 
     table, th, td {
-      border: 1px solid #6096BA;
+      border: 1px solid #84a98cff; 
     }
 
     th, td {
@@ -70,21 +71,18 @@
     }
 
     th {
-      background-color: #6096BA;
-      color: #E7ECEF;
+      background-color: #84a98cff; 
+      color: #cad2c5ff; 
     }
 
-    tr:nth-child(even) {
-      background-color: #A3CEF1;
-    }
 
     tr:hover {
-      background-color: #8B8C89;
+      background-color: #354f52ff; 
     }
 
     a {
       text-decoration: none;
-      color: #274C77;
+      color: #2f3e46ff; 
     }
 
     a:hover {
@@ -100,18 +98,17 @@
   <input type="text" name="productName" placeholder="Enter product name" size="50">
   <select name="category">
     <option value="">All Categories</option>
-    <!-- Add options dynamically based on categories in the database -->
     <%
-        String categoryQuery = "SELECT * FROM category";
-		String url = "jdbc:sqlserver://cosc304_sqlserver:1433;DatabaseName=orders;TrustServerCertificate=True";
-		String uid = "sa";
-		String pw = "304#serverpw";
+        String sql = "SELECT * FROM category";
+        String url = "jdbc:sqlserver://cosc304_sqlserver:1433;DatabaseName=orders;TrustServerCertificate=True";
+        String uid = "sa";
+        String pw = "304#serverpw";
         try(Connection con = DriverManager.getConnection(url, uid, pw);
             Statement stmt = con.createStatement();
-            ResultSet categoryResult = stmt.executeQuery(categoryQuery)) {
-            while (categoryResult.next()) {
-                int categoryId = categoryResult.getInt("categoryId");
-                String categoryName = categoryResult.getString("categoryName");
+            ResultSet res = stmt.executeQuery(sql)) {
+            while (res.next()) {
+                int categoryId = res.getInt("categoryId");
+                String categoryName = res.getString("categoryName");
     %>
                 <option value="<%= categoryId %>"><%= categoryName %></option>
     <%
@@ -162,7 +159,7 @@ NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 // Use it to build a query and print out the resultset. Make sure to use PreparedStatement!
 
 // Make the connection
-try (Connection con = DriverManager.getConnection(url, uid, pw);
+try (Connection con = DriverManager.getConnection(url2, uid2, pw2);
         Statement stmt = con.createStatement();) {
     // Build the SQL query based on whether a category is selected
     String sql1 = "SELECT * FROM product JOIN category ON product.categoryId = category.categoryId WHERE productName LIKE ?";
@@ -184,14 +181,12 @@ try (Connection con = DriverManager.getConnection(url, uid, pw);
         int productId = rst.getInt("productId");
         String productName = rst.getString("productName");
         double productPrice = rst.getDouble("productPrice");
-        String productImageURL = rst.getString("productImageURL");
-        String category = rst.getString("categoryName");
 
         String addcartURL = "addcart.jsp?id=" + productId + "&name=" + URLEncoder.encode(productName, "UTF-8") + "&price=" + productPrice;
-        out.println("<tr><td><a href= \"" + addcartURL + "\"'>Add to cart</a></td>");
+        out.println("<tr><td><a href= \"" + addcartURL + "\">Add to cart</a></td>");
 
         String productNameURL = "product.jsp?id=" + productId + "&name=" + URLEncoder.encode(productName, "UTF-8") + "&price=" + productPrice;
-        out.println("<td><a href= \"" + productNameURL + "\"'>" + productName + "</a></td>");
+        out.println("<td><a href= \"" + productNameURL + "\">" + productName + "</a></td>");
 
         out.println("<td>$" + productPrice + "</td></tr>");
     }

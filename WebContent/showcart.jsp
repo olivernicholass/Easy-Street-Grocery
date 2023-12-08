@@ -9,77 +9,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
-  <title>Easy Street Grocery</title>
-  <style>
-    	body {
-      		font-family: 'Poppins', sans-serif;
-        }
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+    <title>Easy Street Grocery</title>
+    <style>
+    :root {
+        --ash-gray: #cad2c5ff;
+        --cambridge-blue: #84a98cff;
+        --hookers-green: #52796fff;
+        --dark-slate-gray: #354f52ff;
+        --charcoal: #2f3e46ff;
+    }
 
-        h1 {
-            background-color: #3498db;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--ash-gray);
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+    h1 {
+        background-color: var(--dark-slate-gray);
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+    }
 
-        table, th, td {
-            border: 1px solid #3498db;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
 
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
+    }
 
-        th {
-            background-color: #3498db;
-            color: #fff;
-        }
+    table, th, td {
+        border: 1px solid var(--dark-slate-gray);
+    }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
 
-        tr:hover {
-            background-color: #e0e0e0;
-        }
+    th {
+        background-color: var(--dark-slate-gray);
+        color: #fff;
+    }
 
-        a {
-            text-decoration: none;
-            color: #3498db;
-        }
 
-        a:hover {
-            text-decoration: underline;
-        }
+    tr:hover {
+        background-color: var(--hookers-green);
+    }
 
-        .remove-link {
-            color: red;
-            cursor: pointer;
-        }
-    </style>
+    a {
+        text-decoration: none;
+        color: var(--cambridge-blue);
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    .remove-link {
+        color: red;
+        cursor: pointer;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 20px
+    }
+
+    .checkout-button {
+        background-color: var(--hookers-green);
+        color: #fff;
+    }
+
+    .continue-button {
+        background-color: var(--hookers-green);
+        color: #fff;
+    }
+</style>
 
 
     <script>
         function removeProduct(productId) {
-			// AJAX implementation
             if (confirm("Are you sure you want to remove this item?")) {
- 
                 var req = new XMLHttpRequest();
-                req .onreadystatechange = function () {
-                    if (req .readyState == 4 && req .status == 200) {
+                req.onreadystatechange = function () {
+                    if (req.readyState == 4 && req.status == 200) {
                         window.location.reload();
                     }
                 };
-                req .open("GET", "remove.jsp?id=" + productId, true);
-                req .send();
+                req.open("GET", "remove.jsp?id=" + productId, true);
+                req.send();
             }
         }
     </script>
@@ -87,17 +117,13 @@
 <body>
 
 <%
-// Get the current list of products
 @SuppressWarnings({"unchecked"})
 HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Object>>) session.getAttribute("productList");
 
-if (productList == null)
-{
+if (productList == null) {
     out.println("<H1>Your shopping cart is empty!</H1>");
     productList = new HashMap<String, ArrayList<Object>>();
-}
-else
-{
+} else {
     NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 
     out.println("<h1>Your Shopping Cart</h1>");
@@ -106,12 +132,10 @@ else
 
     double total = 0;
     Iterator<Map.Entry<String, ArrayList<Object>>> iterator = productList.entrySet().iterator();
-    while (iterator.hasNext())
-    {
+    while (iterator.hasNext()) {
         Map.Entry<String, ArrayList<Object>> entry = iterator.next();
         ArrayList<Object> product = (ArrayList<Object>) entry.getValue();
-        if (product.size() < 4)
-        {
+        if (product.size() < 4) {
             out.println("Expected product with four entries. Got: " + product);
             continue;
         }
@@ -125,20 +149,14 @@ else
         double pr = 0;
         int qty = 0;
 
-        try
-        {
+        try {
             pr = Double.parseDouble(price.toString());
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             out.println("Invalid price for product: " + product.get(0) + " price: " + price);
         }
-        try
-        {
+        try {
             qty = Integer.parseInt(itemqty.toString());
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             out.println("Invalid quantity for product: " + product.get(0) + " quantity: " + qty);
         }
 
@@ -152,10 +170,14 @@ else
             + "<td align=\"right\">" + currFormat.format(total) + "</td><td></td></tr>");
     out.println("</table>");
 
-    out.println("<h2><a href=\"checkout.jsp\">Check Out</a></h2>");
+    out.println("<div class=\"button-container\">");
+    out.println("    <form action=\"checkout.jsp\" method=\"get\">");
+    out.println("        <button type=\"submit\" class=\"button checkout-button\">Check Out</button>");
+    out.println("    </form>");
+    out.println("    <button class=\"button continue-button\" onclick=\"location.href='listprod.jsp'\">Continue Shopping</button>");
+    out.println("</div>");
 }
 %>
 
-<h2><a href="listprod.jsp">Continue Shopping</a></h2>
 </body>
 </html>
