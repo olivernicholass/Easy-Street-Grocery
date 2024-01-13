@@ -32,7 +32,8 @@ Welcome to the Easy Street Grocery repository! Easy Street Grocery is a full-sta
 
 - **Java:** Server-side logic implemented using Java programming language.
 - **JavaServer Pages (JSP):** Front-end templates and dynamic content generation.
-- **SQL Server:** Database management for storing product, order, and user information.
+- **HTML and CSS:** Front-end technologies for structuring and styling web pages.
+- **SQL:** Database management for storing product, order, and user information.
 - **AWS/Docker:** Database hosting for the website.
 ## How to Run:
 
